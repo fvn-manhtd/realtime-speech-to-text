@@ -101,8 +101,8 @@ struct MeetingView: View {
     
     private func toggleRecording() {
         if isRecording {
-            // Save current transcript before stopping, only if it hasn't been saved yet
-            if !speechRecognizer.transcript.isEmpty && !speakerTranscripts.contains(where: { $0.text == speechRecognizer.transcript }) {
+            // Only save transcript when stopping recording
+            if !speechRecognizer.transcript.isEmpty {
                 speakerTranscripts.append(
                     SpeakerTranscript(
                         speakerName: scrumTimer.activeSpeaker,
@@ -110,12 +110,12 @@ struct MeetingView: View {
                         timestamp: Date()
                     )
                 )
-                // Clear the transcript after saving
+                // Clear the transcript immediately after saving
                 speechRecognizer.resetTranscript()
             }
             speechRecognizer.stopTranscribing()
         } else {
-            // Clear the transcript when starting new recording
+            // Only reset the transcript, keep previous speakerTranscripts
             speechRecognizer.resetTranscript()
             speechRecognizer.startTranscribing()
         }
@@ -125,22 +125,7 @@ struct MeetingView: View {
     private func startScrum() {
         scrumTimer.reset(lengthInMinutes: scrum.lengthInMinutes, attendees: scrum.attendees)
         scrumTimer.speakerChangedAction = {
-            // Save current speaker's transcript if not empty
-            if !speechRecognizer.transcript.isEmpty {
-                let currentSpeaker = scrumTimer.activeSpeaker
-                speakerTranscripts.append(
-                    SpeakerTranscript(
-                        speakerName: currentSpeaker,
-                        text: speechRecognizer.transcript,
-                        timestamp: Date()
-                    )
-                )
-            }
-            
-            // Reset transcript for next speaker
-            speechRecognizer.resetTranscript()
-            
-            // Play sound
+            // Just play sound on speaker change, don't save transcript
             player.seek(to: .zero)
             player.play()
         }
@@ -150,19 +135,19 @@ struct MeetingView: View {
     private func endScrum() {
         scrumTimer.stopScrum()
         speechRecognizer.stopTranscribing()
-        isRecording = false
         
-        // Only save final transcript if we haven't already saved it in toggleRecording
-        if !speechRecognizer.transcript.isEmpty {
-            let currentSpeaker = scrumTimer.activeSpeaker
+        // Save final transcript only if we haven't already saved it
+        if isRecording && !speechRecognizer.transcript.isEmpty {
             speakerTranscripts.append(
                 SpeakerTranscript(
-                    speakerName: currentSpeaker,
+                    speakerName: scrumTimer.activeSpeaker,
                     text: speechRecognizer.transcript,
                     timestamp: Date()
                 )
             )
         }
+        
+        isRecording = false
         
         // Combine all transcripts for history
         let fullTranscript = speakerTranscripts
@@ -177,6 +162,7 @@ struct MeetingView: View {
         
         // Clear transcripts
         speakerTranscripts = []
+        speechRecognizer.resetTranscript()
     }
 }
 
