@@ -19,40 +19,55 @@ struct MeetingView: View {
             VStack(spacing: 0) {
                 // Row 2: Transcript (80% height)
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
-                        ForEach(speakerTranscripts) { transcript in
-                            VStack(alignment: .leading, spacing: 16) {
-                                Text("Speaking:")
-                                    .font(.headline)
-                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
-                                
-                                Text(transcript.text)
-                                    .font(.body)
-                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
-                                    .padding(.leading)
+                    ScrollViewReader { scrollView in
+                        VStack(alignment: .leading, spacing: 16) {
+                            ForEach(speakerTranscripts) { transcript in
+                                VStack(alignment: .leading, spacing: 16) {
+                                    Text("Speaking:")
+                                        .font(.headline)
+                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
+                                    
+                                    Text(transcript.text)
+                                        .font(.body)
+                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
+                                        .padding(.leading)
+                                }
+                            }
+                            
+                            // Only show current transcript if we're recording
+                            if isRecording && !speechRecognizer.transcript.isEmpty {
+                                VStack(alignment: .leading, spacing: 16) {
+                                    Text("Speaking:")
+                                        .font(.headline)
+                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
+                                    
+                                    Text(speechRecognizer.transcript)
+                                        .font(.body)
+                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
+                                        .padding(.leading)
+                                }
+                                .id("currentTranscript") // Add an ID to scroll to
                             }
                         }
-                        
-                        // Only show current transcript if we're recording
-                        if isRecording && !speechRecognizer.transcript.isEmpty {
-                            VStack(alignment: .leading, spacing: 16) {
-                                Text("Speaking:")
-                                    .font(.headline)
-                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
-                                
-                                Text(speechRecognizer.transcript)
-                                    .font(.body)
-                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
-                                    .padding(.leading)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16.0)
+                                .fill(scrum.theme.mainColor.opacity(0.2))
+                        )
+                        .onChange(of: speechRecognizer.transcript) { _ in
+                            // Scroll to bottom when transcript changes
+                            withAnimation {
+                                scrollView.scrollTo("currentTranscript", anchor: .bottom)
+                            }
+                        }
+                        .onChange(of: speakerTranscripts.count) { _ in
+                            // Scroll to bottom when new transcript is added
+                            withAnimation {
+                                scrollView.scrollTo("currentTranscript", anchor: .bottom)
                             }
                         }
                     }
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16.0)
-                            .fill(scrum.theme.mainColor.opacity(0.2))
-                    )
                 }
                 .frame(height: geometry.size.height * 0.80)
                 .padding(10)
