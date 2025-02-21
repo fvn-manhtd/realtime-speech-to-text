@@ -24,10 +24,11 @@ struct MeetingView: View {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Speaking:")
                                     .font(.headline)
-                                    .foregroundColor(scrum.theme.accentColor)
+                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                 
                                 Text(transcript.text)
                                     .font(.body)
+                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                     .padding(.leading)
                             }
                         }
@@ -37,10 +38,11 @@ struct MeetingView: View {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Speaking:")
                                     .font(.headline)
-                                    .foregroundColor(scrum.theme.accentColor)
+                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                 
                                 Text(speechRecognizer.transcript)
                                     .font(.body)
+                                    .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                     .padding(.leading)
                             }
                         }
@@ -99,8 +101,8 @@ struct MeetingView: View {
     
     private func toggleRecording() {
         if isRecording {
-            // Save current transcript before stopping
-            if !speechRecognizer.transcript.isEmpty {
+            // Save current transcript before stopping, only if it hasn't been saved yet
+            if !speechRecognizer.transcript.isEmpty && !speakerTranscripts.contains(where: { $0.text == speechRecognizer.transcript }) {
                 speakerTranscripts.append(
                     SpeakerTranscript(
                         speakerName: scrumTimer.activeSpeaker,
