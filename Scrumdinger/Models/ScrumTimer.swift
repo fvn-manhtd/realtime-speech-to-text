@@ -42,7 +42,7 @@ final class ScrumTimer: ObservableObject {
     private var secondsElapsedForSpeaker: Int = 0
     private var speakerIndex: Int = 0
     private var speakerText: String {
-        return "Speaker \(speakerIndex + 1): " + speakers[speakerIndex].name
+        return speakers[speakerIndex].name
     }
     private var startDate: Date?
     
