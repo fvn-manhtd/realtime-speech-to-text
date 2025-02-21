@@ -1,5 +1,5 @@
 /*
- See LICENSE folder for this sample’s licensing information.
+ See LICENSE folder for this sample's licensing information.
  */
 
 import Foundation
@@ -30,14 +30,18 @@ actor SpeechRecognizer: ObservableObject {
     private var audioEngine: AVAudioEngine?
     private var request: SFSpeechAudioBufferRecognitionRequest?
     private var task: SFSpeechRecognitionTask?
-    private let recognizer: SFSpeechRecognizer?
+    private var recognizer: SFSpeechRecognizer?
+    private var selectedLanguage: String
     
     /**
-     Initializes a new speech recognizer. If this is the first time you've used the class, it
-     requests access to the speech recognizer and the microphone.
+     Initializes a new speech recognizer with the specified language.
+     If no language is specified, defaults to US English.
      */
-    init() {
-        recognizer = SFSpeechRecognizer()
+    init(language: String = "en-US") {
+        self.selectedLanguage = language
+        // Create recognizer for the specified language
+        recognizer = SFSpeechRecognizer(locale: Locale(identifier: language))
+        
         guard recognizer != nil else {
             transcribe(RecognizerError.nilRecognizer)
             return
@@ -54,6 +58,27 @@ actor SpeechRecognizer: ObservableObject {
             } catch {
                 transcribe(error)
             }
+        }
+    }
+    
+    @MainActor func setLanguage(_ language: String) {
+        Task {
+            // Stop any ongoing transcription
+            await reset()
+            
+            // Update the language and recognizer within the actor's context
+            await updateLanguageSettings(language)
+        }
+    }
+    
+    private func updateLanguageSettings(_ language: String) {
+        selectedLanguage = language
+        recognizer = SFSpeechRecognizer(locale: Locale(identifier: language))
+        
+        // Reinitialize if needed
+        guard recognizer != nil else {
+            transcribe(RecognizerError.nilRecognizer)
+            return
         }
     }
     

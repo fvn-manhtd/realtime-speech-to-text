@@ -1,8 +1,25 @@
 /*
- See LICENSE folder for this sample’s licensing information.
+ See LICENSE folder for this sample's licensing information.
  */
 
 import Foundation
+
+enum Language: String, CaseIterable, Identifiable {
+    case english = "English"
+    case spanish = "Spanish"
+    case french = "French"
+    case german = "German"
+    
+    var id: String { self.rawValue }
+}
+
+// Add this new struct before DailyScrum definition
+struct ScrumLanguage: Codable, Identifiable {
+    let name: String
+    let code: String
+    
+    var id: String { code }
+}
 
 struct DailyScrum: Identifiable, Codable {
     let id: UUID
@@ -19,13 +36,15 @@ struct DailyScrum: Identifiable, Codable {
     }
     var theme: Theme
     var history: [History] = []
+    var language: String  // Stores language codes like "en", "fr", etc.
     
-    init(id: UUID = UUID(), title: String, attendees: [String], lengthInMinutes: Int, theme: Theme) {
+    init(id: UUID = UUID(), title: String, attendees: [String], lengthInMinutes: Int, theme: Theme, language: String = DailyScrum.availableLanguages[0].1) {
         self.id = id
         self.title = title
         self.attendees = attendees.map { Attendee(name: $0) }
         self.lengthInMinutes = lengthInMinutes
         self.theme = theme
+        self.language = language
     }
 }
 
@@ -46,19 +65,30 @@ extension DailyScrum {
 }
 
 extension DailyScrum {
-    static let sampleData: [DailyScrum] =
-    [
+    static let sampleData: [DailyScrum] = [
         DailyScrum(title: "Design",
                    attendees: ["Cathy", "Daisy", "Simon", "Jonathan"],
                    lengthInMinutes: 10,
-                   theme: .yellow),
-        DailyScrum(title: "App Dev",
-                   attendees: ["Katie", "Gray", "Euna", "Luis", "Darla"],
-                   lengthInMinutes: 5,
-                   theme: .orange),
-        DailyScrum(title: "Web Dev",
-                   attendees: ["Chella", "Chris", "Christina", "Eden", "Karla", "Lindsey", "Aga", "Chad", "Jenn", "Sarah"],
-                   lengthInMinutes: 5,
-                   theme: .poppy)
+                   theme: .yellow,
+                   language: availableLanguages[0].1),
+        // Update other sample data items similarly
+        // ... existing code ...
     ]
+}
+
+extension DailyScrum {
+    // Update language options to use ScrumLanguage struct
+    static let availableLanguages: [(String, String)] = [
+        ("English", "en-US"),
+        ("Japanese", "ja-JP"),
+        ("Vietnamese", "vi-VN"),
+        ("Spanish", "es-ES"),
+        ("French", "fr-FR"),
+        ("German", "de-DE")
+    ]
+    
+    // Helper function to get display name for a language code
+    static func getLanguageDisplayName(for code: String) -> String {
+        availableLanguages.first { $0.1 == code }?.0 ?? "English"
+    }
 }

@@ -1,5 +1,5 @@
 /*
- See LICENSE folder for this sample’s licensing information.
+ See LICENSE folder for this sample's licensing information.
  */
 
 import SwiftUI
@@ -10,7 +10,7 @@ struct DetailEditView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Meeting Info")) {
+            Section {
                 TextField("Title", text: $scrum.title)
                 HStack {
                     Slider(value: $scrum.lengthInMinutesAsDouble, in: 5...30, step: 1) {
@@ -22,8 +22,15 @@ struct DetailEditView: View {
                         .accessibilityHidden(true)
                 }
                 ThemePicker(selection: $scrum.theme)
+                Picker("Language", selection: $scrum.language) {
+                    ForEach(DailyScrum.availableLanguages, id: \.1) { language in
+                        Text(language.0)
+                            .tag(language.1)
+                    }
+                }
+            } header: {
+                Text("Meeting Info")
             }
-            
         }
     }
 }

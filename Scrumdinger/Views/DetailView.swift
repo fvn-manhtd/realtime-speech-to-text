@@ -34,6 +34,12 @@ struct DetailView: View {
                         .cornerRadius(4)
                 }
                 .accessibilityElement(children: .combine)
+                HStack {
+                    Label("Language", systemImage: "globe")
+                    Spacer()
+                    Text(DailyScrum.getLanguageDisplayName(for: scrum.language))
+                }
+                .accessibilityElement(children: .combine)
             }
             Section(header: Text("History")) {
                 if scrum.history.isEmpty {

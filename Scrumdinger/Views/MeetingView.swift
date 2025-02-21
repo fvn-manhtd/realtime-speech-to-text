@@ -8,7 +8,7 @@ import AVFoundation
 struct MeetingView: View {
     @Binding var scrum: DailyScrum
     @StateObject var scrumTimer = ScrumTimer()
-    @StateObject var speechRecognizer = SpeechRecognizer()
+    @StateObject private var speechRecognizer = SpeechRecognizer()
     @State private var isRecording = false
     @State private var speakerTranscripts: [SpeakerTranscript] = []
     
@@ -86,12 +86,16 @@ struct MeetingView: View {
             .foregroundColor(scrum.theme.accentColor)
         }
         .onAppear {
+            speechRecognizer.setLanguage(scrum.language)
             startScrum()
         }
         .onDisappear {
             endScrum()
         }
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: scrum.language) { newLanguage in
+            speechRecognizer.setLanguage(newLanguage)
+        }
     }
     
     private func toggleRecording() {
