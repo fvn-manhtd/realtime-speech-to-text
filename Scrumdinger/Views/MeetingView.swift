@@ -65,11 +65,10 @@ struct MeetingView: View {
                             Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
                                 .resizable() // Make the image resizable
                                 .frame(width: 70, height: 70) // Slightly larger button for better touch target
-                                .foregroundColor(isRecording ? .red : scrum.theme.accentColor)
+                                .foregroundColor(isRecording ? .red : .black)
                                 .background(
                                     Circle() // Add a circular background
                                         .fill(Color.white) // White background for contrast
-                                        .shadow(radius: 3) // Shadow for button depth
                                 )
                         }
                         .padding(.vertical, 5) // Increase vertical padding for better spacing

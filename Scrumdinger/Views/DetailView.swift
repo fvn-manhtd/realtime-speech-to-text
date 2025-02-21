@@ -18,11 +18,11 @@ struct DetailView: View {
                         .font(.headline)
                         .foregroundColor(.accentColor)
                 }
-                HStack {
-                    Label("Length", systemImage: "clock")
-                    Spacer()
-                    Text("\(scrum.lengthInMinutes) minutes")
-                }
+//                HStack {
+//                    Label("Length", systemImage: "clock")
+//                    Spacer()
+//                    Text("\(scrum.lengthInMinutes) minutes")
+//                }
                 .accessibilityElement(children: .combine)
                 HStack {
                     Label("Theme", systemImage: "paintpalette")

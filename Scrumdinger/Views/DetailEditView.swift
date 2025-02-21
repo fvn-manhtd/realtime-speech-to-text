@@ -12,15 +12,15 @@ struct DetailEditView: View {
         Form {
             Section {
                 TextField("Title", text: $scrum.title)
-                HStack {
-                    Slider(value: $scrum.lengthInMinutesAsDouble, in: 5...30, step: 1) {
-                        Text("Length")
-                    }
-                    .accessibilityValue("\(scrum.lengthInMinutes) minutes")
-                    Spacer()
-                    Text("\(scrum.lengthInMinutes) minutes")
-                        .accessibilityHidden(true)
-                }
+                // HStack {
+                //     Slider(value: $scrum.lengthInMinutesAsDouble, in: 5...30, step: 1) {
+                //         Text("Length")
+                //     }
+                //     .accessibilityValue("\(scrum.lengthInMinutes) minutes")
+                //     Spacer()
+                //     Text("\(scrum.lengthInMinutes) minutes")
+                //         .accessibilityHidden(true)
+                // }
                 ThemePicker(selection: $scrum.theme)
                 Picker("Language", selection: $scrum.language) {
                     ForEach(DailyScrum.availableLanguages, id: \.1) { language in

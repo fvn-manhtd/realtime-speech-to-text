@@ -17,9 +17,9 @@ struct CardView: View {
                     .accessibilityLabel("Language: \(DailyScrum.getLanguageDisplayName(for: scrum.language))")
                     .labelStyle(.trailingIcon)
                 Spacer()
-                Label("\(scrum.lengthInMinutes)", systemImage: "clock")
-                    .accessibilityLabel("\(scrum.lengthInMinutes) minute meeting")
-                    .labelStyle(.trailingIcon)
+//                Label("\(scrum.lengthInMinutes)", systemImage: "clock")
+//                    .accessibilityLabel("\(scrum.lengthInMinutes) minute meeting")
+//                    .labelStyle(.trailingIcon)
             }
             .font(.caption)
         }
