@@ -20,7 +20,7 @@ struct HistoryView: View {
                 }
             }
         }
-        .navigationTitle(Text(history.date, style: .date))
+        .navigationTitle(Text("\(history.date, style: .date) \(history.date, style: .time)"))
         .padding()
     }
 }

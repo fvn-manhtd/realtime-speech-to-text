@@ -50,6 +50,7 @@ struct DetailView: View {
                         HStack {
                             Image(systemName: "calendar")
                             Text(history.date, style: .date)
+                            Text(history.date, style: .time)
                         }
                     }
                 }
