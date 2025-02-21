@@ -21,7 +21,7 @@ struct MeetingView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(speakerTranscripts) { transcript in
-                            VStack(alignment: .leading, spacing: 16) { // Increased spacing to 16
+                            VStack(alignment: .leading, spacing: 16) {
                                 Text("Speaking:")
                                     .font(.headline)
                                     .foregroundColor(scrum.theme.accentColor)
@@ -32,9 +32,9 @@ struct MeetingView: View {
                             }
                         }
                         
-                        // Show current speaker's transcript
-                        if !speechRecognizer.transcript.isEmpty {
-                            VStack(alignment: .leading, spacing: 16) { // Increased spacing to 16
+                        // Only show current transcript if we're recording
+                        if isRecording && !speechRecognizer.transcript.isEmpty {
+                            VStack(alignment: .leading, spacing: 16) {
                                 Text("Speaking:")
                                     .font(.headline)
                                     .foregroundColor(scrum.theme.accentColor)
@@ -54,7 +54,6 @@ struct MeetingView: View {
                 }
                 .frame(height: geometry.size.height * 0.80)
                 .padding(10)
-
 
                 // Row 1: Meeting UI (20% height)
                 ZStack {
@@ -106,6 +105,8 @@ struct MeetingView: View {
                         timestamp: Date()
                     )
                 )
+                // Clear the transcript after saving
+                speechRecognizer.resetTranscript()
             }
             speechRecognizer.stopTranscribing()
         } else {
@@ -146,7 +147,7 @@ struct MeetingView: View {
         speechRecognizer.stopTranscribing()
         isRecording = false
         
-        // Save final speaker's transcript
+        // Only save final transcript if we haven't already saved it in toggleRecording
         if !speechRecognizer.transcript.isEmpty {
             let currentSpeaker = scrumTimer.activeSpeaker
             speakerTranscripts.append(
