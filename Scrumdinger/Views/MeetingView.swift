@@ -21,15 +21,15 @@ struct MeetingView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16.0)
                         .fill(scrum.theme.mainColor)
-                    VStack(spacing: 0) {
-                        MeetingHeaderView(secondsElapsed: scrumTimer.secondsElapsed, 
-                                        secondsRemaining: scrumTimer.secondsRemaining, 
-                                        theme: scrum.theme)
-                        MeetingTimerView(speakers: scrumTimer.speakers, 
-                                       isRecording: isRecording, 
-                                       theme: scrum.theme)
-                        MeetingFooterView(speakers: scrumTimer.speakers, 
-                                        skipAction: scrumTimer.skipSpeaker)
+                    VStack(spacing: 0) {                    
+                        // Add recording control button
+                        Button(action: toggleRecording) {
+                            Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                                .resizable() // Make the image resizable
+                                .frame(width: 40, height: 40) // Set the size of the button
+                                .foregroundColor(isRecording ? .red : scrum.theme.accentColor)
+                        }
+                        .padding(.vertical, 1)
                     }
                 }
                 .frame(height: geometry.size.height * 0.2) // 20% of screen height
@@ -42,7 +42,7 @@ struct MeetingView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(speakerTranscripts) { transcript in
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("\(transcript.speakerName) speaking:")
+                                Text("Speaking:")
                                     .font(.headline)
                                     .foregroundColor(scrum.theme.accentColor)
                                 
@@ -55,7 +55,7 @@ struct MeetingView: View {
                         // Show current speaker's transcript
                         if !speechRecognizer.transcript.isEmpty {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text("\(scrumTimer.activeSpeaker) speaking:")
+                                Text("Speaking:")
                                     .font(.headline)
                                     .foregroundColor(scrum.theme.accentColor)
                                 
@@ -87,6 +87,27 @@ struct MeetingView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
+    private func toggleRecording() {
+        if isRecording {
+            // Save current transcript before stopping
+            if !speechRecognizer.transcript.isEmpty {
+                speakerTranscripts.append(
+                    SpeakerTranscript(
+                        speakerName: scrumTimer.activeSpeaker,
+                        text: speechRecognizer.transcript,
+                        timestamp: Date()
+                    )
+                )
+            }
+            speechRecognizer.stopTranscribing()
+        } else {
+            // Clear the transcript when starting new recording
+            speechRecognizer.resetTranscript()
+            speechRecognizer.startTranscribing()
+        }
+        isRecording.toggle()
+    }
+    
     private func startScrum() {
         scrumTimer.reset(lengthInMinutes: scrum.lengthInMinutes, attendees: scrum.attendees)
         scrumTimer.speakerChangedAction = {
@@ -109,8 +130,6 @@ struct MeetingView: View {
             player.seek(to: .zero)
             player.play()
         }
-        speechRecognizer.startTranscribing()
-        isRecording = true
         scrumTimer.startScrum()
     }
     
