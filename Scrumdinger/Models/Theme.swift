@@ -1,5 +1,5 @@
 /*
- See LICENSE folder for this sample’s licensing information.
+ See LICENSE folder for this sample's licensing information.
  */
 
 import SwiftUI
@@ -22,11 +22,12 @@ enum Theme: String, CaseIterable, Identifiable, Codable {
     case tan
     case teal
     case yellow
+    case gray
     
     var accentColor: Color {
         switch self {
         case .bubblegum, .buttercup, .lavender, .orange, .periwinkle, .poppy, .seafoam, .sky, .tan, .teal, .yellow: return .black
-        case .indigo, .magenta, .navy, .oxblood, .purple: return .white
+        case .indigo, .magenta, .navy, .oxblood, .purple, .gray: return .white
         }
     }
     var mainColor: Color {

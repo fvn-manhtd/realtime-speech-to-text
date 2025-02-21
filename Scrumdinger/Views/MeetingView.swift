@@ -17,31 +17,11 @@ struct MeetingView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                // Row 1: Meeting UI (20% height)
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16.0)
-                        .fill(scrum.theme.mainColor)
-                    VStack(spacing: 0) {                    
-                        // Add recording control button
-                        Button(action: toggleRecording) {
-                            Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
-                                .resizable() // Make the image resizable
-                                .frame(width: 40, height: 40) // Set the size of the button
-                                .foregroundColor(isRecording ? .red : scrum.theme.accentColor)
-                        }
-                        .padding(.vertical, 1)
-                    }
-                }
-                .frame(height: geometry.size.height * 0.2) // 20% of screen height
-                .padding(.top, 20)
-                .padding(.bottom, 20) 
-                
-                
                 // Row 2: Transcript (80% height)
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(speakerTranscripts) { transcript in
-                            VStack(alignment: .leading, spacing: 4) {
+                            VStack(alignment: .leading, spacing: 16) { // Increased spacing to 16
                                 Text("Speaking:")
                                     .font(.headline)
                                     .foregroundColor(scrum.theme.accentColor)
@@ -54,7 +34,7 @@ struct MeetingView: View {
                         
                         // Show current speaker's transcript
                         if !speechRecognizer.transcript.isEmpty {
-                            VStack(alignment: .leading, spacing: 4) {
+                            VStack(alignment: .leading, spacing: 16) { // Increased spacing to 16
                                 Text("Speaking:")
                                     .font(.headline)
                                     .foregroundColor(scrum.theme.accentColor)
@@ -72,10 +52,38 @@ struct MeetingView: View {
                             .fill(scrum.theme.mainColor.opacity(0.2))
                     )
                 }
-                .frame(height: geometry.size.height * 0.75)
-                .padding(.top, 8)
-            }
-            .padding()
+                .frame(height: geometry.size.height * 0.80)
+                .padding(10)
+
+
+                // Row 1: Meeting UI (20% height)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12) // Add rounded corners for a softer look
+                        .fill(Color(UIColor.systemGray6)) // Use a more modern system gray color                        
+                    VStack(spacing: 0) {
+                        // Add recording control button
+                        Button(action: toggleRecording) {
+                            Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                                .resizable() // Make the image resizable
+                                .frame(width: 70, height: 70) // Slightly larger button for better touch target
+                                .foregroundColor(isRecording ? .red : scrum.theme.accentColor)
+                                .background(
+                                    Circle() // Add a circular background
+                                        .fill(Color.white) // White background for contrast
+                                        .shadow(radius: 3) // Shadow for button depth
+                                )
+                        }
+                        .padding(.vertical, 5) // Increase vertical padding for better spacing
+                    }
+                }
+                .frame(maxWidth: .infinity) // Set full width
+                .frame(height: geometry.size.height * 0.15) // Set 15% of screen height
+                .padding(.top, 10)
+                .padding(.bottom, 10)
+                
+                
+                
+            }            
             .foregroundColor(scrum.theme.accentColor)
         }
         .onAppear {
