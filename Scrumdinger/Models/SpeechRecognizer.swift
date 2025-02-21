@@ -14,6 +14,7 @@ actor SpeechRecognizer: ObservableObject {
         case notAuthorizedToRecognize
         case notPermittedToRecord
         case recognizerIsUnavailable
+        case languageNotSupported
         
         var message: String {
             switch self {
@@ -21,6 +22,7 @@ actor SpeechRecognizer: ObservableObject {
             case .notAuthorizedToRecognize: return "Not authorized to recognize speech"
             case .notPermittedToRecord: return "Not permitted to record audio"
             case .recognizerIsUnavailable: return "Recognizer is unavailable"
+            case .languageNotSupported: return "Language not supported for offline use"
             }
         }
     }
@@ -107,8 +109,18 @@ actor SpeechRecognizer: ObservableObject {
      The resulting transcription is continuously written to the published `transcript` property.
      */
     private func transcribe() {
-        guard let recognizer, recognizer.isAvailable else {
+        guard let recognizer else {
+            self.transcribe(RecognizerError.nilRecognizer)
+            return
+        }
+        
+        guard recognizer.isAvailable else {
             self.transcribe(RecognizerError.recognizerIsUnavailable)
+            return
+        }
+        
+        guard recognizer.supportsOnDeviceRecognition else {
+            self.transcribe(RecognizerError.languageNotSupported)
             return
         }
         
