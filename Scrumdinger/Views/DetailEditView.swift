@@ -11,7 +11,7 @@ struct DetailEditView: View {
     var body: some View {
         Form {
             Section {
-                TextField("Title", text: $scrum.title)
+                TextField(String(localized: "Title"), text: $scrum.title)
                 // HStack {
                 //     Slider(value: $scrum.lengthInMinutesAsDouble, in: 5...30, step: 1) {
                 //         Text("Length")
@@ -22,14 +22,14 @@ struct DetailEditView: View {
                 //         .accessibilityHidden(true)
                 // }
                 ThemePicker(selection: $scrum.theme)
-                Picker("Language", selection: $scrum.language) {
+                Picker(String(localized: "Language"), selection: $scrum.language) {
                     ForEach(DailyScrum.availableLanguages, id: \.1) { language in
                         Text(language.0)
                             .tag(language.1)
                     }
                 }
             } header: {
-                Text("Meeting Info")
+                Text(String(localized: "Meeting_Info"))
             }
         }
     }

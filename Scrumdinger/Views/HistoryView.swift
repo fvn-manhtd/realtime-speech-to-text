@@ -13,7 +13,7 @@ struct HistoryView: View {
                 Divider()
                     .padding(.bottom)                
                 if let transcript = history.transcript {
-                    Text("Transcript")
+                    Text(String(localized: "Transcript"))
                         .font(.headline)
                         .padding(.top)
                     Text(transcript)

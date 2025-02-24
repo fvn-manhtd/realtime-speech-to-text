@@ -21,14 +21,14 @@ struct ScrumsView: View {
                 }
                 .onDelete(perform: deleteScrums)
             }
-            .navigationTitle("Daily Scrums")
+            .navigationTitle(String(localized: "Daily_Scrums"))
             .toolbar {
                 Button(action: {
                     isPresentingNewScrumView = true
                 }) {
                     Image(systemName: "plus")
                 }
-                .accessibilityLabel("New Scrum")
+                .accessibilityLabel(String(localized: "New_Scrum"))
             }
         }
         .sheet(isPresented: $isPresentingNewScrumView) {

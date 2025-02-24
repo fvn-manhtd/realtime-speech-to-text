@@ -12,9 +12,9 @@ struct DetailView: View {
     
     var body: some View {
         List {
-            Section(header: Text("Meeting Info")) {
+            Section(header: Text("Meeting_Info")) {
                 NavigationLink(destination: MeetingView(scrum: $scrum)) {
-                    Label("Start Meeting", systemImage: "timer")
+                    Label(String(localized: "Start_Meeting"), systemImage: "timer")
                         .font(.headline)
                         .foregroundColor(.accentColor)
                 }
@@ -25,7 +25,7 @@ struct DetailView: View {
 //                }
                 .accessibilityElement(children: .combine)
                 HStack {
-                    Label("Theme", systemImage: "paintpalette")
+                    Label(String(localized: "Theme"), systemImage: "paintpalette")
                     Spacer()
                     Text(scrum.theme.name)
                         .padding(4)
@@ -35,15 +35,15 @@ struct DetailView: View {
                 }
                 .accessibilityElement(children: .combine)
                 HStack {
-                    Label("Language", systemImage: "globe")
+                    Label(String(localized: "Language"), systemImage: "globe")
                     Spacer()
                     Text(DailyScrum.getLanguageDisplayName(for: scrum.language))
                 }
                 .accessibilityElement(children: .combine)
             }
-            Section(header: Text("History")) {
+            Section(header: Text(String(localized: "History"))) {
                 if scrum.history.isEmpty {
-                    Label("No meetings yet", systemImage: "calendar.badge.exclamationmark")
+                    Label(String(localized: "No_meetings_yet"), systemImage: "calendar.badge.exclamationmark")
                 }
                 ForEach(scrum.history) { history in
                     NavigationLink(destination: HistoryView(history: history)) {
@@ -59,7 +59,7 @@ struct DetailView: View {
         }
         .navigationTitle(scrum.title)
         .toolbar {
-            Button("Edit") {
+            Button(String(localized: "Edit")) {
                 isPresentingEditView = true
                 editingScrum = scrum
             }
@@ -70,12 +70,12 @@ struct DetailView: View {
                     .navigationTitle(scrum.title)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
-                            Button("Cancel") {
+                            Button(String(localized: "Cancel")) {
                                 isPresentingEditView = false
                             }
                         }
                         ToolbarItem(placement: .confirmationAction) {
-                            Button("Done") {
+                            Button(String(localized: "Done")) {
                                 isPresentingEditView = false
                                 scrum = editingScrum
                             }

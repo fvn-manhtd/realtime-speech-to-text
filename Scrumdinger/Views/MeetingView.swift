@@ -23,7 +23,7 @@ struct MeetingView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             ForEach(speakerTranscripts) { transcript in
                                 VStack(alignment: .leading, spacing: 16) {
-                                    Text("Speaking:")
+                                    Text(String(localized: "Speaking:"))
                                         .font(.headline)
                                         .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                     
@@ -37,7 +37,7 @@ struct MeetingView: View {
                             // Only show current transcript if we're recording
                             if isRecording && !speechRecognizer.transcript.isEmpty {
                                 VStack(alignment: .leading, spacing: 16) {
-                                    Text("Speaking:")
+                                    Text(String(localized: "Speaking:"))
                                         .font(.headline)
                                         .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                     

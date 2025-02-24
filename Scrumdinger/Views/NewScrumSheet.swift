@@ -14,12 +14,12 @@ struct NewScrumSheet: View {
             DetailEditView(scrum: $newScrum)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
-                        Button("Dismiss") {
+                        Button(String(localized: "Dismiss")) {
                             isPresentingNewScrumView = false
                         }
                     }
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("Add") {
+                        Button(String(localized: "Add")) {
                             scrums.append(newScrum)
                             isPresentingNewScrumView = false
                         }

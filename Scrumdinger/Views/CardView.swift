@@ -14,7 +14,7 @@ struct CardView: View {
             Spacer()
             HStack {
                 Label(DailyScrum.getLanguageDisplayName(for: scrum.language), systemImage: "globe")
-                    .accessibilityLabel("Language: \(DailyScrum.getLanguageDisplayName(for: scrum.language))")
+                    .accessibilityLabel(String(localized: "Language: \(DailyScrum.getLanguageDisplayName(for: scrum.language))"))
                     .labelStyle(.trailingIcon)
                 Spacer()
 //                Label("\(scrum.lengthInMinutes)", systemImage: "clock")
