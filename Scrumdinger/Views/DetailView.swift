@@ -45,6 +45,9 @@ struct DetailView: View {
                 ForEach(scrum.attendees) { attendee in
                     Label(attendee.name, systemImage: "person")
                 }
+                .onDelete { indices in
+                    scrum.attendees.remove(atOffsets: indices)
+                }
             }
             Section(header: Text(String(localized: "History"))) {
                 if scrum.history.isEmpty {
