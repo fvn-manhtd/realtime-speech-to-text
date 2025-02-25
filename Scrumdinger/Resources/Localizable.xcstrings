@@ -8,6 +8,12 @@
             "state" : "new",
             "value" : "%1$@ %2$@"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
+          }
         }
       }
     },
@@ -157,7 +163,14 @@
       }
     },
     "Language: %@" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "言語"
+          }
+        }
+      }
     },
     "Meeting_Info" : {
       "localizations" : {
@@ -213,6 +226,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Speaking"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "話している"
           }
         }
       }
