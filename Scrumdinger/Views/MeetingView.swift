@@ -23,13 +23,17 @@ struct MeetingView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             ForEach(speakerTranscripts) { transcript in
                                 VStack(alignment: .leading, spacing: 16) {
-                                    Text(String(localized: "Speaking:"))
-                                        .font(.headline)
-                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
+                                    HStack {
+                                        Text(transcript.speakerName)
+                                            .font(.headline)
+                                            .foregroundColor(scrum.theme.accentColor)
+                                        Text("is speaking:")
+                                            .font(.subheadline)
+                                            .foregroundColor(Color.primary)
+                                    }
                                     
                                     Text(transcript.text)
                                         .font(.body)
-                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                         .padding(.leading)
                                 }
                             }
@@ -37,13 +41,17 @@ struct MeetingView: View {
                             // Only show current transcript if we're recording
                             if isRecording && !speechRecognizer.transcript.isEmpty {
                                 VStack(alignment: .leading, spacing: 16) {
-                                    Text(String(localized: "Speaking:"))
-                                        .font(.headline)
-                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
+                                    HStack {
+                                        Text(scrumTimer.activeSpeaker)
+                                            .font(.headline)
+                                            .foregroundColor(scrum.theme.accentColor)
+                                        Text("is speaking:")
+                                            .font(.subheadline)
+                                            .foregroundColor(Color.primary)
+                                    }
                                     
                                     Text(speechRecognizer.transcript)
                                         .font(.body)
-                                        .foregroundColor(Color.primary) // Adjusts color based on light/dark mode
                                         .padding(.leading)
                                 }
                                 .id("currentTranscript") // Add an ID to scroll to
@@ -74,31 +82,77 @@ struct MeetingView: View {
 
                 // Row 1: Meeting UI (20% height)
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12) // Add rounded corners for a softer look
-                        .fill(Color(UIColor.systemGray6)) // Use a more modern system gray color                        
-                    VStack(spacing: 0) {
-                        // Add recording control button
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(UIColor.systemGray6))
+                    HStack {
+                        // Add left side button for switching attendees
+                        Button(action: {
+                            // Ensure actions are performed in a safe sequence
+                            Task {
+                                // Stop current recording and save transcript if not empty
+                                if isRecording {
+                                    if !speechRecognizer.transcript.isEmpty {
+                                        speakerTranscripts.append(
+                                            SpeakerTranscript(
+                                                speakerName: scrumTimer.activeSpeaker,
+                                                text: speechRecognizer.transcript,
+                                                timestamp: Date()
+                                            )
+                                        )
+                                        speechRecognizer.resetTranscript()
+                                    }
+                                    speechRecognizer.stopTranscribing()
+                                    isRecording = false
+                                }
+                                
+                                // Switch to the next speaker
+                                scrumTimer.skipSpeaker()
+                                
+                                // Start new recording for the next speaker
+                                speechRecognizer.startTranscribing()
+                                isRecording = true
+                            }
+                        }) {
+                            VStack {
+                                Image(systemName: "person.wave.2.fill")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                Text("Current Speaker:")
+                                    .font(.caption)
+                                Text(scrumTimer.activeSpeaker)
+                                    .font(.callout)
+                            }
+                        }
+                        .padding(.leading)
+                        
+                        Spacer()
+                        
+                        // Existing recording button remains centered
                         Button(action: toggleRecording) {
                             Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
-                                .resizable() // Make the image resizable
-                                .frame(width: 70, height: 70) // Slightly larger button for better touch target
+                                .resizable()
+                                .frame(width: 70, height: 70)
                                 .foregroundColor(isRecording ? .red : .black)
                                 .background(
-                                    Circle() // Add a circular background
-                                        .fill(Color.white) // White background for contrast
+                                    Circle()
+                                        .fill(Color.white)
                                 )
                         }
-                        .padding(.vertical, 5) // Increase vertical padding for better spacing
+                        
+                        Spacer()
+                        
+                        // Add empty spacer to balance layout
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .hidden() // Invisible placeholder
                     }
                 }
-                .frame(maxWidth: .infinity) // Set full width
-                .frame(height: geometry.size.height * 0.15) // Set 15% of screen height
+                .frame(maxWidth: .infinity)
+                .frame(height: geometry.size.height * 0.15)
                 .padding(.top, 10)
                 .padding(.bottom, 10)
-                
-                
-                
-            }            
+            }
             .foregroundColor(scrum.theme.accentColor)
         }
         .onAppear {

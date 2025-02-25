@@ -33,6 +33,22 @@
         }
       }
     },
+    "Add_Attendee" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Attendee"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "出席者を追加"
+          }
+        }
+      }
+    },
     "An_error_has_occurred" : {
       "localizations" : {
         "en" : {
@@ -45,6 +61,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "エラーが発生しました！"
+          }
+        }
+      }
+    },
+    "Attendees" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendees"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "出席者"
           }
         }
       }
@@ -64,6 +96,9 @@
           }
         }
       }
+    },
+    "Current Speaker:" : {
+
     },
     "Daily_Scrums" : {
       "extractionState" : "manual",
@@ -146,6 +181,9 @@
         }
       }
     },
+    "is speaking:" : {
+
+    },
     "Language" : {
       "localizations" : {
         "en" : {
@@ -188,6 +226,22 @@
         }
       }
     },
+    "New_Attendee" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Attendee"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しい出席者"
+          }
+        }
+      }
+    },
     "New_Scrum" : {
       "localizations" : {
         "en" : {
@@ -221,6 +275,7 @@
       }
     },
     "Speaking:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -297,54 +352,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "議事録"
-          }
-        }
-      }
-    },
-    "Attendees" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Attendees"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "出席者"
-          }
-        }
-      }
-    },
-    "New_Attendee" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Attendee"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "新しい出席者"
-          }
-        }
-      }
-    },
-    "Add_Attendee" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Attendee"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "出席者を追加"
           }
         }
       }

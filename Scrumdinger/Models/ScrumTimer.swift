@@ -1,5 +1,5 @@
 /*
-See LICENSE folder for this sample’s licensing information.
+See LICENSE folder for this sample's licensing information.
 */
 
 import Foundation
@@ -89,11 +89,12 @@ final class ScrumTimer: ObservableObject {
             speakers[previousSpeakerIndex].isCompleted = true
         }
         secondsElapsedForSpeaker = 0
-        guard index < speakers.count else { return }
-        speakerIndex = index
+        
+        // Loop back to the first speaker if the index exceeds the number of speakers
+        speakerIndex = index % speakers.count
         activeSpeaker = speakerText
 
-        secondsElapsed = index * secondsPerSpeaker
+        secondsElapsed = speakerIndex * secondsPerSpeaker
         secondsRemaining = lengthInSeconds - secondsElapsed
         startDate = Date()
     }
