@@ -271,19 +271,18 @@
         }
       }
     },
-    "Next_Speaker" : {
-      "extractionState" : "stale",
+    "No_Attendees" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next Speaker"
+            "value" : "No Attendees"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "次の発言者"
+            "value" : "出席者がいません"
           }
         }
       }
@@ -306,6 +305,22 @@
     },
     "OK" : {
 
+    },
+    "Please_add_at_least_one_attendee" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please add at least one attendee"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "少なくとも1人の出席者を追加してください"
+          }
+        }
+      }
     },
     "Start_Meeting" : {
       "extractionState" : "manual",
