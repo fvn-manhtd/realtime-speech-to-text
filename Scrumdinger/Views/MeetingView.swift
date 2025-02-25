@@ -11,6 +11,7 @@ struct MeetingView: View {
     @StateObject private var speechRecognizer = SpeechRecognizer()
     @State private var isRecording = false
     @State private var speakerTranscripts: [SpeakerTranscript] = []
+    @State private var showAlert = false
     
     private var player: AVPlayer { AVPlayer.sharedDingPlayer }
     
@@ -27,7 +28,7 @@ struct MeetingView: View {
                                         Text(transcript.speakerName)
                                             .font(.headline)
                                             .foregroundColor(scrum.theme.accentColor)
-                                        Text("is speaking:")
+                                       Text(String(localized: "is_speaking"))
                                             .font(.subheadline)
                                             .foregroundColor(Color.primary)
                                     }
@@ -45,7 +46,7 @@ struct MeetingView: View {
                                         Text(scrumTimer.activeSpeaker)
                                             .font(.headline)
                                             .foregroundColor(scrum.theme.accentColor)
-                                        Text("is speaking:")
+                                        Text(String(localized: "is_speaking"))
                                             .font(.subheadline)
                                             .foregroundColor(Color.primary)
                                     }
@@ -85,11 +86,11 @@ struct MeetingView: View {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color(UIColor.systemGray6))
                     HStack {
-                        // Add left side button for switching attendees
+                        Spacer()
+                        
+                        // Next Speaker Button
                         Button(action: {
-                            // Ensure actions are performed in a safe sequence
                             Task {
-                                // Stop current recording and save transcript if not empty
                                 if isRecording {
                                     if !speechRecognizer.transcript.isEmpty {
                                         speakerTranscripts.append(
@@ -99,36 +100,29 @@ struct MeetingView: View {
                                                 timestamp: Date()
                                             )
                                         )
-                                        // Clear the transcript immediately after saving
                                         speechRecognizer.resetTranscript()
                                     }
                                     speechRecognizer.stopTranscribing()
                                     isRecording = false
                                 }
                                 
-                                // Switch to the next speaker
                                 scrumTimer.skipSpeaker()
                                 
-                                // Start new recording for the next speaker
                                 speechRecognizer.startTranscribing()
                                 isRecording = true
                             }
                         }) {
                             VStack {
-                                Image(systemName: "person.wave.2.fill")
+                                Image(systemName: "forward.fill")
                                     .resizable()
-                                    .frame(width: 40, height: 40)
-                                Text("Current Speaker:")
-                                    .font(.caption)
-                                Text(scrumTimer.activeSpeaker)
-                                    .font(.callout)
+                                    .frame(width: 24, height: 24)
                             }
                         }
-                        .padding(.leading)
+                        .padding(.trailing, 10)
                         
                         Spacer()
                         
-                        // Existing recording button remains centered
+                        // Recording Button
                         Button(action: toggleRecording) {
                             Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
                                 .resizable()
@@ -142,12 +136,28 @@ struct MeetingView: View {
                         
                         Spacer()
                         
-                        // Add empty spacer to balance layout
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .hidden() // Invisible placeholder
+                        // AI Button
+                        Button(action: {
+                            showAlert = true
+                        }) {
+                            VStack {
+                                Image(systemName: "brain.head.profile")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                        }
+                        .padding(.trailing, 10)
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("AI Button Pressed"),
+                                message: Text("You have pressed the AI button."),
+                                dismissButton: .default(Text("OK"))
+                            )
+                        }
+                        
+                        Spacer()
                     }
+                    .padding(.horizontal)
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: geometry.size.height * 0.15)
@@ -193,6 +203,10 @@ struct MeetingView: View {
     }
     
     private func startScrum() {
+        guard !scrum.attendees.isEmpty else {
+            print("Error: No attendees available.")
+            return
+        }
         scrumTimer.reset(lengthInMinutes: scrum.lengthInMinutes, attendees: scrum.attendees)
         scrumTimer.speakerChangedAction = {
             // Just play sound on speaker change, don't save transcript
@@ -238,6 +252,11 @@ struct MeetingView: View {
 
 struct MeetingView_Previews: PreviewProvider {
     static var previews: some View {
-        MeetingView(scrum: .constant(DailyScrum.sampleData[0]))
+        // Ensure sampleData is not empty
+        if let firstScrum = DailyScrum.sampleData.first {
+            MeetingView(scrum: .constant(firstScrum))
+        } else {
+            Text("No sample data available")
+        }
     }
 }

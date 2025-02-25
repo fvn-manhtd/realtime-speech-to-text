@@ -49,6 +49,9 @@
         }
       }
     },
+    "AI Button Pressed" : {
+
+    },
     "An_error_has_occurred" : {
       "localizations" : {
         "en" : {
@@ -96,9 +99,6 @@
           }
         }
       }
-    },
-    "Current Speaker:" : {
-
     },
     "Daily_Scrums" : {
       "extractionState" : "manual",
@@ -181,8 +181,21 @@
         }
       }
     },
-    "is speaking:" : {
-
+    "is_speaking" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "is speaking:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "話している:"
+          }
+        }
+      }
     },
     "Language" : {
       "localizations" : {
@@ -258,6 +271,23 @@
         }
       }
     },
+    "Next_Speaker" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Speaker"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次の発言者"
+          }
+        }
+      }
+    },
     "No_meetings_yet" : {
       "localizations" : {
         "en" : {
@@ -274,22 +304,8 @@
         }
       }
     },
-    "Speaking:" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speaking"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "話している"
-          }
-        }
-      }
+    "OK" : {
+
     },
     "Start_Meeting" : {
       "extractionState" : "manual",
@@ -355,6 +371,9 @@
           }
         }
       }
+    },
+    "You have pressed the AI button." : {
+
     }
   },
   "version" : "1.0"
