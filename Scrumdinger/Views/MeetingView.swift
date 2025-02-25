@@ -99,6 +99,7 @@ struct MeetingView: View {
                                                 timestamp: Date()
                                             )
                                         )
+                                        // Clear the transcript immediately after saving
                                         speechRecognizer.resetTranscript()
                                     }
                                     speechRecognizer.stopTranscribing()
