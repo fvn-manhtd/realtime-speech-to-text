@@ -27,14 +27,15 @@ struct MeetingView: View {
                                     HStack {
                                         Text(transcript.speakerName)
                                             .font(.headline)
-                                            .foregroundColor(scrum.theme.accentColor)
-                                       Text(String(localized: "is_speaking"))
+                                            .foregroundColor(Color.primary)
+                                        Text(String(localized: "is_speaking"))
                                             .font(.subheadline)
                                             .foregroundColor(Color.primary)
                                     }
                                     
                                     Text(transcript.text)
                                         .font(.body)
+                                        .foregroundColor(Color.primary) // Adjust text color based on mode
                                         .padding(.leading)
                                 }
                             }
@@ -45,7 +46,7 @@ struct MeetingView: View {
                                     HStack {
                                         Text(scrumTimer.activeSpeaker)
                                             .font(.headline)
-                                            .foregroundColor(scrum.theme.accentColor)
+                                            .foregroundColor(Color.primary)
                                         Text(String(localized: "is_speaking"))
                                             .font(.subheadline)
                                             .foregroundColor(Color.primary)
@@ -53,6 +54,7 @@ struct MeetingView: View {
                                     
                                     Text(speechRecognizer.transcript)
                                         .font(.body)
+                                        .foregroundColor(Color.primary) // Adjust text color based on mode
                                         .padding(.leading)
                                 }
                                 .id("currentTranscript") // Add an ID to scroll to
@@ -84,7 +86,7 @@ struct MeetingView: View {
                 // Row 1: Meeting UI (20% height)
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(UIColor.systemGray6))
+                        .fill(Color(UIColor.systemBackground))
                     HStack {
                         Spacer()
                         
@@ -116,6 +118,7 @@ struct MeetingView: View {
                                 Image(systemName: "forward.fill")
                                     .resizable()
                                     .frame(width: 24, height: 24)
+                                    .foregroundColor(Color(UIColor.label)) // Adjust color based on mode
                             }
                         }
                         .padding(.trailing, 10)
@@ -144,6 +147,7 @@ struct MeetingView: View {
                                 Image(systemName: "brain.head.profile")
                                     .resizable()
                                     .frame(width: 24, height: 24)
+                                    .foregroundColor(Color(UIColor.label)) // Adjust color based on mode
                             }
                         }
                         .padding(.trailing, 10)
