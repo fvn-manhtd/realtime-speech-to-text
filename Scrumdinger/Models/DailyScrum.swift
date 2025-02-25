@@ -74,11 +74,7 @@ extension DailyScrum {
     // Update language options to use ScrumLanguage struct
     static let availableLanguages: [(String, String)] = [
         ("English", "en-US"),
-        ("Japanese", "ja-JP"),
-        ("Vietnamese", "vi-VN"),
-        ("Spanish", "es-ES"),
-        ("French", "fr-FR"),
-        ("German", "de-DE")
+        ("Japanese", "ja-JP")
     ]
     
     // Helper function to get display name for a language code

@@ -122,6 +122,7 @@ struct MeetingView: View {
                             }
                         }
                         .padding(.trailing, 10)
+                        .disabled(scrum.attendees.count <= 1) // Disable button if there is only 1 attendee
                         
                         Spacer()
                         
