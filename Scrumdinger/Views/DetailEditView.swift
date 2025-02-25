@@ -31,6 +31,28 @@ struct DetailEditView: View {
             } header: {
                 Text(String(localized: "Meeting_Info"))
             }
+            Section(header: Text(String(localized: "Attendees"))) {
+                ForEach(scrum.attendees) { attendee in
+                    Text(attendee.name)
+                }
+                .onDelete { indices in
+                    scrum.attendees.remove(atOffsets: indices)
+                }
+                HStack {
+                    TextField(String(localized: "New_Attendee"), text: $newAttendeeName)
+                    Button(action: {
+                        withAnimation {
+                            let attendee = DailyScrum.Attendee(name: newAttendeeName)
+                            scrum.attendees.append(attendee)
+                            newAttendeeName = ""
+                        }
+                    }) {
+                        Image(systemName: "plus.circle.fill")
+                            .accessibilityLabel(String(localized: "Add_Attendee"))
+                    }
+                    .disabled(newAttendeeName.isEmpty)
+                }
+            }
         }
     }
 }

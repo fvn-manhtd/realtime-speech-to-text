@@ -41,6 +41,11 @@ struct DetailView: View {
                 }
                 .accessibilityElement(children: .combine)
             }
+            Section(header: Text(String(localized: "Attendees"))) {
+                ForEach(scrum.attendees) { attendee in
+                    Label(attendee.name, systemImage: "person")
+                }
+            }
             Section(header: Text(String(localized: "History"))) {
                 if scrum.history.isEmpty {
                     Label(String(localized: "No_meetings_yet"), systemImage: "calendar.badge.exclamationmark")
